@@ -1,0 +1,6 @@
+[submodule "enchat"]
+	path = enchat
+	url = git@github.com:dosmlp/enchat.git
+[submodule "base"]
+	path = base
+	url = git@github.com:dosmlp/base.git

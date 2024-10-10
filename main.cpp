@@ -4,14 +4,23 @@
 #include <QQmlContext>
 #include "friendlistmodel.h"
 #include "chathistory.h"
+#include "appconfig.h"
+#include "xlog.h"
+#include "mbedtls.h"
+#include "exceptiondump.h"
 
 int main(int argc, char *argv[])
 {
+    ExceptionDump::Init("./");
+    XLogMgr::get()->InitLog("./","qml_enchat","qml_enchat");
+    init_mbedtls();
+
     QGuiApplication app(argc, argv);
-    // QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+    AppConfig::init();
     QQmlApplicationEngine engine;
 
-    FriendListModel model;
+    FriendList::Model model;
     engine.rootContext()->setContextProperty("friendListModel",&model);
     ChatHistory::Model chathis;
     engine.rootContext()->setContextProperty("chatRecordModel",&chathis);

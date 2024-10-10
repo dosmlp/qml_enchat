@@ -4,6 +4,9 @@ project(qml_enchat VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_subdirectory(base)
+add_subdirectory(enchat)
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 # find_package(OpenSSL REQUIRED)
 
@@ -41,5 +44,8 @@ set_target_properties(appqml_enchat PROPERTIES
 
 target_link_libraries(appqml_enchat
     PRIVATE Qt6::Quick
+    base
+    enchat
 )
+# target_include_directories(appqml_enchat PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

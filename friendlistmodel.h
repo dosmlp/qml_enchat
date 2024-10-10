@@ -2,13 +2,11 @@
 #define FRIENDLISTMODEL_H
 
 #include <QAbstractListModel>
+#include "Peer.h"
+
 
 namespace FriendList {
-struct Node {
-    typedef std::shared_ptr<Node> Ptr;
-    QString name;
-    QString pub_key;
-};
+
 
 class Model : public QAbstractListModel
 {
@@ -47,7 +45,7 @@ public:
     }
 
 private:
-    QList<Node::Ptr> friend_list_;
+    QList<Peer::Ptr> friend_list_;
 };
 }
 #endif // FRIENDLISTMODEL_H

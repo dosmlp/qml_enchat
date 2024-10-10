@@ -1,8 +1,14 @@
 #include "friendlistmodel.h"
+#include "appconfig.h"
+
 namespace FriendList {
 Model::Model(QObject *parent)
     : QAbstractListModel(parent)
-{}
+{
+
+    friend_list_ = AppConfig::getPeerList();
+
+}
 
 int Model::rowCount(const QModelIndex &parent) const
 {
@@ -47,7 +53,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
         return friend_list_.at(row)->name;
         break;
     case FriendListRoles::pub_key:
-        return friend_list_.at(row)->pub_key;
+        return friend_list_.at(row)->pub_key.toBase64();
         break;
     default:
         break;

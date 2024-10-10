@@ -31,21 +31,27 @@ ListView {
                 Column {
                     Layout.horizontalStretchFactor: 2
                     Layout.fillWidth: true
+                    Layout.preferredWidth: 30
                     Text {
                         text: model.name
                         font.bold: true
                     }
                     Text {
+                        width: parent.width
                         text: model.pub_key
+                        elide: Text.ElideRight
                     }
                 }
                 Button {
 
                     Layout.horizontalStretchFactor: 1
                     Layout.fillWidth: true
+                    Layout.preferredWidth: 30
                     id: bt_delete
                     text: qsTr("删除")
-                    onClicked: c_delete.open()
+                    onClicked: {
+
+                    }
 
                 }
             }
