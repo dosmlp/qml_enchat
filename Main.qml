@@ -10,11 +10,13 @@ Window {
     title: qsTr("Hello World")
 
     Rectangle {
-        x: 4;y: 4
-        width: parent.width-8
-        height: parent.height-8
+        anchors.fill: parent
+        anchors.margins: 4
+        border.color: "#FF0000"
+
         RowLayout {
             anchors.fill: parent
+            anchors.margins: 4
 
             FriendListView {
                 Layout.fillWidth: true

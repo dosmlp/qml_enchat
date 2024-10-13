@@ -2,50 +2,55 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-Item {
-    Rectangle {
+Rectangle {
+    color: "#008d97"
+    border.color: "#000000"
+    border.width: 1
+    radius: 8
+
+    ColumnLayout {
+        id: right_area
+        anchors.margins: 8
         anchors.fill: parent
-        color: "#008d97"
-        border.color: "#000000"
-        border.width: 1
-        radius: 8
+        spacing: 2
 
-        ColumnLayout {
-            anchors.margins: 8
-            anchors.fill: parent
-            spacing: 2
+        //聊天记录
+        ChatHistoryListView {
+            id: history_area
+            Layout.preferredWidth: parent.width
+            Layout.verticalStretchFactor: 1
+            Layout.fillHeight: true
+            Layout.preferredHeight: 100
+        }
 
-            ChatHistoryListView {
+        //发送消息
+        Rectangle {
+            id: send_area
+            Layout.preferredWidth: parent.width
+            Layout.verticalStretchFactor: 1
+            Layout.maximumHeight: 400
+            Layout.fillHeight: true
+            Layout.preferredHeight: 100
+            color: "#333333"
 
-            }
-
-            Rectangle {
-                id: send_area
-                Layout.preferredWidth: parent.width
-                Layout.verticalStretchFactor: 1
-                Layout.maximumHeight: 400
-                Layout.fillHeight: true
-                Layout.preferredHeight: 100
-                color: "#333333"
-
-                RowLayout {
-                    anchors.fill: parent
-                    TextEdit {
-                        id: send_text
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        color: "red"
-                        textFormat: TextEdit.PlainText
-                        wrapMode: TextEdit.WordWrap
-                    }
-                    Button {
-                        id: btn_send
-                        height: 30
-                        width: 100
-                        text: qsTr("发送")
-                    }
+            RowLayout {
+                anchors.fill: parent
+                TextEdit {
+                    id: send_text
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    color: "red"
+                    textFormat: TextEdit.PlainText
+                    wrapMode: TextEdit.WordWrap
+                }
+                Button {
+                    id: btn_send
+                    height: 30
+                    width: 100
+                    text: qsTr("发送")
                 }
             }
         }
     }
 }
+

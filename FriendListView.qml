@@ -5,6 +5,8 @@ import FluentUI
 
 ListView {
     id: friendlist
+    clip: true
+
     FluContentDialog {
         id: c_delete
         title: qsTr("提示")
