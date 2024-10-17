@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QQmlContext>
+#include <QLoggingCategory>
+#include <QDebug>
 #include "friendlistmodel.h"
 #include "chathistory.h"
 #include "appconfig.h"
@@ -16,9 +18,12 @@ int main(int argc, char *argv[])
     init_mbedtls();
 
     QGuiApplication app(argc, argv);
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+    // QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+    QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
+    qDebug()<<QQuickWindow::textRenderType();
     AppConfig::init();
     QQmlApplicationEngine engine;
+    QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.binding.removal.info=true"));
 
     FriendList::Model model;
     engine.rootContext()->setContextProperty("friendListModel",&model);

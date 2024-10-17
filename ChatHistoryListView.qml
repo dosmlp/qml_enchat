@@ -3,8 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 Rectangle {
-    border.color: "#345611"
-    border.width: 2
+    border.color: "#ececec"
     // radius: 8
 
     ListView {
@@ -27,7 +26,9 @@ Rectangle {
                 readonly property bool sentByMe: model.recipient !== "Me"
                 Label {
                     id: sender_name
+                    visible: !sentByMe
                     text: model.author
+                    font.bold: true
                 }
                 Rectangle {
                     id: msg_content
@@ -44,7 +45,9 @@ Rectangle {
                 }
                 Label {
                     id: msg_time
+                    anchors.right: sentByMe ? parent.right : undefined
                     text: Qt.formatDateTime(model.time, "MM-d hh:mm")
+                    color: "#aaaaaa"
                 }
             }
         }

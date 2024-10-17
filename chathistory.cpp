@@ -10,7 +10,7 @@ Model::Model(QObject *parent)
         Node::Ptr p = std::make_shared<Node>();
         p->author = "Mes";
         p->message = "asdhio厚爱的奥胖激发";
-        p->recipient = "Me";
+        p->recipient = i%2 == 0 ? "Me":"mm";
         p->time = QDateTime::currentDateTime();
         history_.append(p);
     }
