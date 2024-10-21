@@ -18,6 +18,7 @@ qt_add_executable(appqml_enchat
     appconfig.h
     appconfig.cpp
     chathistory.h chathistory.cpp
+    chatengine.h chatengine.cpp
 )
 
 qt_add_qml_module(appqml_enchat
@@ -30,6 +31,7 @@ qt_add_qml_module(appqml_enchat
         SOURCES friendlistmodel.h friendlistmodel.cpp
         QML_FILES ChatHistoryListView.qml
 )
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

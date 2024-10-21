@@ -3,11 +3,10 @@
 
 #include <QAbstractListModel>
 #include <QDateTime>
+#include <QQmlEngine>
 
-namespace ChatHistory {
-
-struct Node {
-    typedef std::shared_ptr<Node> Ptr;
+struct ChatHistoryNode {
+    typedef std::shared_ptr<ChatHistoryNode> Ptr;
     QString author;
     QString recipient;
     QString message;
@@ -15,9 +14,11 @@ struct Node {
 
 };
 
-class Model : public QAbstractListModel
+class ChatHistoryModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
     enum Roles {
@@ -26,7 +27,14 @@ public:
         message,
         time
     };
-    explicit Model(QObject *parent = nullptr);
+
+    static ChatHistoryModel *create(QQmlEngine *, QJSEngine *engine)
+    {
+        static ChatHistoryModel *result = new ChatHistoryModel;
+        // Create the instance using some custom constructor or factory.
+        // The QML engine will assume ownership and delete it, eventually.
+        return result;
+    }
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -48,10 +56,24 @@ public:
         roles.insert(Roles::time,"time");
         return roles;
     }
+    Q_INVOKABLE void add(const QString& s)
+    {
+        beginInsertRows(QModelIndex(),history_.size(),history_.size());
+        ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
+        p->author = "Me";
+        p->message = s;
+        p->recipient = "ss";
+        p->time = QDateTime::currentDateTime();
+        history_.append(p);
+        endInsertRows();
+        emit dataChanged(createIndex(history_.size()-1,0),createIndex(history_.size()-1,0));
+    }
+
 private:
-    QList<Node::Ptr> history_;
+    explicit ChatHistoryModel(QObject *parent = nullptr);
+    QList<ChatHistoryNode::Ptr> history_;
 };
-}
+
 
 
 

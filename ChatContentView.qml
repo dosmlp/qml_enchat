@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls.Universal
+import QtQuick.Controls.Basic
+import qml_enchat
 
 Rectangle {
     color: "#f5f5f5"
@@ -21,6 +22,8 @@ Rectangle {
             Layout.verticalStretchFactor: 1
             Layout.fillHeight: true
             Layout.preferredHeight: 100
+
+
         }
 
         //发送消息
@@ -74,7 +77,14 @@ Rectangle {
                 color: btn_send.pressed? "#c6c6c6":(btn_send.hovered? "#d2d2d2": "#e9e9e9")
                 radius: 4
             }
+            // ChatHistoryModel {
+            //     id: history
+            // }
 
+            onClicked: {
+                ChatHistoryModel.add(send_text.text)
+                ChatEngine.sendText(44,send_text.text)
+            }
         }
     }
 }

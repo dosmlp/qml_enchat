@@ -18,17 +18,16 @@ int main(int argc, char *argv[])
     init_mbedtls();
 
     QGuiApplication app(argc, argv);
-    // QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
     QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
-    qDebug()<<QQuickWindow::textRenderType();
     AppConfig::init();
     QQmlApplicationEngine engine;
-    QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.binding.removal.info=true"));
+    // QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.binding.removal.info=true"));
 
     FriendList::Model model;
     engine.rootContext()->setContextProperty("friendListModel",&model);
-    ChatHistory::Model chathis;
-    engine.rootContext()->setContextProperty("chatRecordModel",&chathis);
+    // ChatHistory::Model chathis;
+    // engine.rootContext()->setContextProperty("chatRecordModel",&chathis);
 
     QObject::connect(
         &engine,

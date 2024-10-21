@@ -1,32 +1,32 @@
 #include "chathistory.h"
-namespace ChatHistory {
-Model::Model(QObject *parent)
+
+ChatHistoryModel::ChatHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     history_.reserve(4096);
 
+    // return;
     for (int i = 0;i < 100;++i)
     {
-        Node::Ptr p = std::make_shared<Node>();
+        ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
         p->author = "Mes";
-        p->message = "asdhio厚爱的奥胖激发";
+        p->message = "AAAAA厚爱的奥胖激发:"+QString::number(i);
         p->recipient = i%2 == 0 ? "Me":"mm";
         p->time = QDateTime::currentDateTime();
         history_.append(p);
     }
 }
 
-int Model::rowCount(const QModelIndex &parent) const
+int ChatHistoryModel::rowCount(const QModelIndex &parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
     // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
     if (parent.isValid())
         return 0;
-
     return history_.size();
 }
 
-QVariant Model::data(const QModelIndex &index, int role) const
+QVariant ChatHistoryModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -49,11 +49,11 @@ QVariant Model::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QMap<int, QVariant> Model::itemData(const QModelIndex &index) const
+QMap<int, QVariant> ChatHistoryModel::itemData(const QModelIndex &index) const
 {
     int row = index.row();
 
-    Node::Ptr p = history_.at(row);
+    ChatHistoryNode::Ptr p = history_.at(row);
 
     QMap<int,QVariant> map;
     map.insert(Roles::author,p->author);
@@ -63,7 +63,7 @@ QMap<int, QVariant> Model::itemData(const QModelIndex &index) const
     return map;
 }
 
-bool Model::insertRows(int row, int count, const QModelIndex &parent)
+bool ChatHistoryModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
@@ -71,11 +71,11 @@ bool Model::insertRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
-bool Model::removeRows(int row, int count, const QModelIndex &parent)
+bool ChatHistoryModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
     return true;
 }
-}
+
