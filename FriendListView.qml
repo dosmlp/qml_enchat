@@ -44,18 +44,18 @@ ListView {
                         elide: Text.ElideRight
                     }
                 }
-                Button {
+                // Button {
 
-                    Layout.horizontalStretchFactor: 1
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 30
-                    id: bt_delete
-                    text: qsTr("删除")
-                    onClicked: {
+                //     Layout.horizontalStretchFactor: 1
+                //     Layout.fillWidth: true
+                //     Layout.preferredWidth: 30
+                //     id: bt_delete
+                //     text: qsTr("删除")
+                //     onClicked: {
+                //         dialogtest.open()
+                //     }
 
-                    }
-
-                }
+                // }
             }
 
 

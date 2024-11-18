@@ -3,8 +3,11 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include "chatclient.h"
+#include "chatserver.h"
+#include "chatcallback.h"
 
-class ChatEngine : public QObject
+class ChatEngine : public ChatCallBack
 {
     Q_OBJECT
     QML_ELEMENT
@@ -13,6 +16,12 @@ public:
     explicit ChatEngine(QObject *parent = nullptr);
 
     Q_INVOKABLE void sendText(uint64_t id, const QString& text);
+
+    void onConnected(const uint64_t id) override;
+    void onTextMsg(const uint64_t id, const QString &text) override;
+    void onClose(const uint64_t id) override;
+    void onHandShakeFinished(const uint64_t id) override;
+
 signals:
 };
 

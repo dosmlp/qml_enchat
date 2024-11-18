@@ -10,6 +10,7 @@
 #include "xlog.h"
 #include "mbedtls.h"
 #include "exceptiondump.h"
+#include "chatclient.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,8 +27,7 @@ int main(int argc, char *argv[])
 
     FriendList::Model model;
     engine.rootContext()->setContextProperty("friendListModel",&model);
-    // ChatHistory::Model chathis;
-    // engine.rootContext()->setContextProperty("chatRecordModel",&chathis);
+
 
     QObject::connect(
         &engine,
@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
     engine.loadFromModule("qml_enchat", "Main");
+
 
     return app.exec();
 }

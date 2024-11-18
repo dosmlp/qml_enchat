@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(qml_enchat VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(base)
 add_subdirectory(enchat)
@@ -17,6 +18,7 @@ qt_add_executable(appqml_enchat
     json.hpp
     appconfig.h
     appconfig.cpp
+    friendlistmodel.h friendlistmodel.cpp
     chathistory.h chathistory.cpp
     chatengine.h chatengine.cpp
 )
@@ -26,10 +28,9 @@ qt_add_qml_module(appqml_enchat
     VERSION 1.0
     QML_FILES
         Main.qml
-        QML_FILES FriendListView.qml
-        QML_FILES ChatContentView.qml
-        SOURCES friendlistmodel.h friendlistmodel.cpp
-        QML_FILES ChatHistoryListView.qml
+        FriendListView.qml
+        ChatContentView.qml
+        ChatHistoryListView.qml
 )
 
 
