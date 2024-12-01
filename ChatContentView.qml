@@ -9,6 +9,14 @@ Rectangle {
     border.width: 1
     radius: 8
 
+    property string current_pk
+
+    Component.onCompleted: {
+    }
+    function test(gg: string) {
+        current_pk = gg
+    }
+
     ColumnLayout {
         id: right_area
         anchors.margins: 8
@@ -83,7 +91,7 @@ Rectangle {
 
             onClicked: {
                 ChatHistoryModel.add(send_text.text)
-                ChatEngine.sendText(44,send_text.text)
+                ChatEngine.sendText(current_pk,send_text.text)
             }
         }
     }

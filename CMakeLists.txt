@@ -4,6 +4,7 @@ project(qml_enchat VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
+list(APPEND CMAKE_PREFIX_PATH $ENV{QTDIR})
 
 add_subdirectory(base)
 add_subdirectory(enchat)
@@ -51,4 +52,5 @@ target_link_libraries(appqml_enchat
     enchat
 )
 # target_include_directories(appqml_enchat PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(appqml_enchat PUBLIC "thirdparty/include")
 

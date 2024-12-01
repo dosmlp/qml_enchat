@@ -1,21 +1,18 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import FluentUI
 
 ListView {
     id: friendlist
     clip: true
-
-    FluContentDialog {
-        id: c_delete
-        title: qsTr("提示")
-        message: qsTr("删除此条记录？")
-    }
+    signal peerClicked(pk: string)
 
     Component {
         id: friendListDelegate
+
         Rectangle {
+            id: peeritem
+
             width: friendlist.width
             height: 60
             border.color: "black"
@@ -23,8 +20,10 @@ ListView {
                 anchors.fill: parent
                 preventStealing: true
                 onClicked: (mouse)=> {
-                    if ((mouse.button == Qt.LeftButton))
-                        console.log(model.name)
+                    if ((mouse.button == Qt.LeftButton)) {
+                        console.log(model.pub_key)
+                        friendlist.peerClicked(model.pub_key)
+                    }
                 }
             }
             RowLayout {
@@ -57,9 +56,6 @@ ListView {
 
                 // }
             }
-
-
-
         }
     }
 

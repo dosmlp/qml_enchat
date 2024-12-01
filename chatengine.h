@@ -15,7 +15,7 @@ class ChatEngine : public ChatCallBack
 public:
     explicit ChatEngine(QObject *parent = nullptr);
 
-    Q_INVOKABLE void sendText(uint64_t id, const QString& text);
+    Q_INVOKABLE void sendText(QString id, const QString& text);
 
     void onConnected(const uint64_t id) override;
     void onTextMsg(const uint64_t id, const QString &text) override;

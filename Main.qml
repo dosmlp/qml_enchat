@@ -19,13 +19,19 @@ Window {
             anchors.margins: 4
 
             FriendListView {
+                id: peerlistview
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.maximumWidth: 300
             }
             ChatContentView {
+                id: ccv
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+            }
+
+            Component.onCompleted: {
+                peerlistview.peerClicked.connect(ccv.test)
             }
         }
     }

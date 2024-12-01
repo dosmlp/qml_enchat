@@ -5,9 +5,9 @@ ChatEngine::ChatEngine(QObject *parent)
     : ChatCallBack{parent}
 {}
 
-void ChatEngine::sendText(uint64_t id, const QString &text)
+void ChatEngine::sendText(QString id, const QString &text)
 {
-
+    qDebug()<<id<<999;
 }
 
 void ChatEngine::onConnected(const uint64_t id)

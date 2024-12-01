@@ -6,15 +6,15 @@ ChatHistoryModel::ChatHistoryModel(QObject *parent)
     history_.reserve(4096);
 
     // return;
-    for (int i = 0;i < 100;++i)
-    {
-        ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
-        p->author = "Mes";
-        p->message = "AAAAA厚爱的奥胖激发:"+QString::number(i);
-        p->recipient = i%2 == 0 ? "Me":"mm";
-        p->time = QDateTime::currentDateTime();
-        history_.append(p);
-    }
+    // for (int i = 0;i < 100;++i)
+    // {
+    //     ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
+    //     p->author = "Mes";
+    //     p->message = "AAAAA厚爱的奥胖激发:"+QString::number(i);
+    //     p->recipient = i%2 == 0 ? "Me":"mm";
+    //     p->time = QDateTime::currentDateTime();
+    //     history_.append(p);
+    // }
 }
 
 int ChatHistoryModel::rowCount(const QModelIndex &parent) const
