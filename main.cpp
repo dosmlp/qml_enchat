@@ -42,9 +42,10 @@ struct_pack::err_code sp_deserialize_to(Reader& reader, QString& qstr) {
     return struct_pack::read(reader, (char*)qstr.data(), size);
 }
 
-
+#include <fstream>
 int main(int argc, char *argv[])
 {
+    //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
     ExceptionDump::Init("./");
     XLogMgr::get()->InitLog("./","qml_enchat","qml_enchat");
     init_mbedtls();

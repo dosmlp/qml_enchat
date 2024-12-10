@@ -79,3 +79,14 @@ bool ChatHistoryModel::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
+void ChatHistoryModel::changePeer(const QString &pk)
+{
+    beginResetModel();
+
+    // if (historys_.contains(pk))
+    historys_[current_peer_] = history_;
+    current_peer_ = pk;
+    history_ = historys_.value(pk);
+    endResetModel();
+}
+

@@ -15,6 +15,7 @@ Rectangle {
     }
     function test(gg: string) {
         current_pk = gg
+        ChatHistoryModel.changePeer(current_pk)
     }
 
     ColumnLayout {
@@ -92,6 +93,7 @@ Rectangle {
             onClicked: {
                 ChatHistoryModel.add(send_text.text)
                 ChatEngine.sendText(current_pk,send_text.text)
+                send_text.clear()
             }
         }
     }

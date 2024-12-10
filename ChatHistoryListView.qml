@@ -28,17 +28,19 @@ Rectangle {
                 // console.log(newmsg.tt)
                 chat_record_view.datachanged = true
             }
+            function onModelReset() {
+            }
         }
         // onContentYChanged: console.log(contentHeight)
         // onHeightChanged: console.log(height)
         onContentHeightChanged: {
             if (datachanged) {
                 // datachanged = false
-                newmsg.tt = chat_record_view.contentHeight-chat_record_view.height+chat_record_view.originY
-                newmsg.start()
-
+                if (chat_record_view.contentHeight > chat_record_view.height) {
+                    newmsg.tt = chat_record_view.contentHeight-chat_record_view.height+chat_record_view.originY
+                    newmsg.start()
+                }
             }
-
         }
 
 

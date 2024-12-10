@@ -5,6 +5,8 @@ import QtQuick.Layouts
 ListView {
     id: friendlist
     clip: true
+    focus: true
+    property int selectedIndex: -1
     signal peerClicked(pk: string)
 
     Component {
@@ -12,17 +14,18 @@ ListView {
 
         Rectangle {
             id: peeritem
-
             width: friendlist.width
             height: 60
             border.color: "black"
+            color: friendlist.selectedIndex === index?"lightsteelblue":"transparent"
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
                 onClicked: (mouse)=> {
-                    if ((mouse.button == Qt.LeftButton)) {
-                        console.log(model.pub_key)
+                    if ((mouse.button === Qt.LeftButton)) {
+                        console.log("clicked",model.pub_key)
                         friendlist.peerClicked(model.pub_key)
+                        friendlist.selectedIndex = index
                     }
                 }
             }

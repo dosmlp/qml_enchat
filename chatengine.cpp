@@ -7,7 +7,8 @@ ChatEngine::ChatEngine(QObject *parent)
 
 void ChatEngine::sendText(QString id, const QString &text)
 {
-    qDebug()<<id<<999;
+    if (id.isEmpty()) return;
+
 }
 
 void ChatEngine::onConnected(const uint64_t id)

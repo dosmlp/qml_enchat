@@ -56,21 +56,26 @@ public:
         roles.insert(Roles::time,"time");
         return roles;
     }
-    Q_INVOKABLE void add(const QString& s)
+    Q_INVOKABLE void add(const QString& msg,const QString& to = QString())
     {
+        if (current_peer_.isEmpty()) return;
+
         beginInsertRows(QModelIndex(),history_.size(),history_.size());
         ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
         p->author = "Me";
-        p->message = s;
-        p->recipient = "ss";
+        p->message = msg;
+        p->recipient = to.isEmpty()?current_peer_:to;
         p->time = QDateTime::currentDateTime();
         history_.append(p);
         endInsertRows();
         emit dataChanged(createIndex(history_.size()-1,0),createIndex(history_.size()-1,0));
     }
-
+    Q_INVOKABLE void changePeer(const QString& pk);
 private:
     explicit ChatHistoryModel(QObject *parent = nullptr);
+
+    QString current_peer_;
+    QMap<QString,QList<ChatHistoryNode::Ptr>> historys_;
     QList<ChatHistoryNode::Ptr> history_;
 };
 
