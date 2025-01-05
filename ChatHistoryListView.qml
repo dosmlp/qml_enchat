@@ -15,11 +15,11 @@ Rectangle {
         clip: true
         property bool datachanged: false
 
-        model: ChatHistoryModel
+        model: chatHistoryModel
         delegate: chatRecordDelegate
         Component.onCompleted: positionViewAtEnd()
         Connections {
-            target: ChatHistoryModel
+            target: chatHistoryModel
             function onDataChanged() {
                 // chat_record_view.positionViewAtEnd()
                 // chat_record_view.contentY = chat_record_view.contentHeight-chat_record_view.height

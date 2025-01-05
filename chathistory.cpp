@@ -1,5 +1,7 @@
 #include "chathistory.h"
 
+int ChatHistoryModel::type_id = 0;//qmlTypeId();
+
 ChatHistoryModel::ChatHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {

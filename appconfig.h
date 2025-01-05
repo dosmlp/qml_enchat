@@ -17,6 +17,7 @@ extern "C" {
 #include "xlog.h"
 #include "qjson_helper.h"
 #include "Peer.h"
+#include "common.h"
 
 using namespace nlohmann;
 

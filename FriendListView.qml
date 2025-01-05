@@ -9,6 +9,20 @@ ListView {
     property int selectedIndex: -1
     signal peerClicked(pk: string)
 
+    Menu {
+        id: context_menu
+        width: 100
+
+        property string peer_pubkey: ""
+
+        MenuItem {
+            text: "连接"
+            onTriggered: {
+                ChatEngine.connectToPeer(context_menu.peer_pubkey)
+            }
+        }
+    }
+
     Component {
         id: friendListDelegate
 
@@ -20,12 +34,18 @@ ListView {
             color: friendlist.selectedIndex === index?"lightsteelblue":"transparent"
             MouseArea {
                 anchors.fill: parent
-                preventStealing: true
+                // preventStealing: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: (mouse)=> {
-                    if ((mouse.button === Qt.LeftButton)) {
+                    if (mouse.button === Qt.LeftButton) {
                         console.log("clicked",model.pub_key)
                         friendlist.peerClicked(model.pub_key)
                         friendlist.selectedIndex = index
+                    }
+                    if (mouse.button === Qt.RightButton) {
+                        console.log("peer item right button")
+                        context_menu.peer_pubkey = model.pub_key
+                        context_menu.popup()
                     }
                 }
             }

@@ -10,12 +10,13 @@ Rectangle {
     radius: 8
 
     property string current_pk
+    visible: current_pk.length != 0
 
     Component.onCompleted: {
     }
     function test(gg: string) {
         current_pk = gg
-        ChatHistoryModel.changePeer(current_pk)
+        chatHistoryModel.changePeer(current_pk)
     }
 
     ColumnLayout {
@@ -91,7 +92,6 @@ Rectangle {
             // }
 
             onClicked: {
-                ChatHistoryModel.add(send_text.text)
                 ChatEngine.sendText(current_pk,send_text.text)
                 send_text.clear()
             }

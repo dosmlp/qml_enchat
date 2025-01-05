@@ -1,5 +1,5 @@
 {
   "dependencies": [
-        "mbedtls","spdlog","minhook","nlohmann-json","asio"
+        "mbedtls","spdlog","minhook","nlohmann-json","asio","yalantinglibs"
   ]
 }

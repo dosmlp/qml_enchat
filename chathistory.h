@@ -18,7 +18,7 @@ class ChatHistoryModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_SINGLETON
+    // QML_SINGLETON
 
 public:
     enum Roles {
@@ -27,6 +27,8 @@ public:
         message,
         time
     };
+    explicit ChatHistoryModel(QObject *parent = nullptr);
+    static int type_id;
 
     static ChatHistoryModel *create(QQmlEngine *, QJSEngine *engine)
     {
@@ -72,7 +74,7 @@ public:
     }
     Q_INVOKABLE void changePeer(const QString& pk);
 private:
-    explicit ChatHistoryModel(QObject *parent = nullptr);
+
 
     QString current_peer_;
     QMap<QString,QList<ChatHistoryNode::Ptr>> historys_;

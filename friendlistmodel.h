@@ -44,6 +44,8 @@ public:
         return roles;
     }
 
+    Peer::Ptr getPeer(const QString& pub_key);
+
 private:
     QList<Peer::Ptr> friend_list_;
 };

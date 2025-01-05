@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/btn">
+        <file alias="svg_close">ico/close_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="svg_minimize">ico/minimize_24dp_5F6368_FILL0_wght200_GRAD0_opsz24.svg</file>
+        <file alias="normal">ico/close_fullscreen_24dp_000000_FILL0_wght200_GRAD0_opsz24.svg</file>
+        <file alias="maximized">ico/open_in_full_24dp_000000_FILL0_wght200_GRAD0_opsz24.svg</file>
+    </qresource>
+</RCC>

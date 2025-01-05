@@ -53,7 +53,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
         return friend_list_.at(row)->name;
         break;
     case FriendListRoles::pub_key:
-        return friend_list_.at(row)->pub_key.toBase64();
+        return friend_list_.at(row)->pub_key;
         break;
     default:
         break;
@@ -76,5 +76,15 @@ bool Model::removeRows(int row, int count, const QModelIndex &parent)
     // FIXME: Implement me!
     endRemoveRows();
     return true;
+}
+
+Peer::Ptr Model::getPeer(const QString &pub_key)
+{
+    for (Peer::Ptr p:friend_list_) {
+        if (p->pub_key == pub_key) {
+            return p;
+        }
+    }
+    return nullptr;
 }
 }
