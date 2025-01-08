@@ -12,6 +12,7 @@ add_subdirectory(enchat)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 find_package(QWindowKit COMPONENTS Core Widgets Quick REQUIRED)
+find_package(unofficial-ed25519 REQUIRED)
 # find_package(OpenSSL REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -58,6 +59,7 @@ target_link_libraries(appqml_enchat
     base
     enchat
     QWindowKit::Quick
+    unofficial::ed25519::ed25519
 )
 # target_include_directories(appqml_enchat PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(appqml_enchat PUBLIC "D:\\3rd\\git_repo\\yalantinglibs\\include")

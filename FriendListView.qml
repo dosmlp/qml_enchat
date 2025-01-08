@@ -18,7 +18,7 @@ ListView {
         MenuItem {
             text: "连接"
             onTriggered: {
-                ChatEngine.connectToPeer(context_menu.peer_pubkey)
+                chatEngine.connectToPeer(context_menu.peer_pubkey)
             }
         }
     }

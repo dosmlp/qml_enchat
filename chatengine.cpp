@@ -2,13 +2,16 @@
 #include "friendlistmodel.h"
 #include "chathistory.h"
 #include <QQmlContext>
-#include <QDebug>
+#include "appconfig.h"
 
 ChatEngine::ChatEngine(QObject *parent)
     : QObject{parent},
     client_(new ChatClient(this,"test")),
-    server_(new ChatServer(10334,this))
+    server_(new ChatServer(AppConfig::instance()->serverPort(),this))
 {
+    client_->setEcKey(AppConfig::instance()->privateKey(),AppConfig::instance()->publicKey());
+    server_->setEcKey(AppConfig::instance()->privateKey(),AppConfig::instance()->publicKey());
+    server_->updatePeerList(AppConfig::instance()->getPeerList());
     connect(client_,&ChatClient::sigClose,this,&ChatEngine::onClose,Qt::QueuedConnection);
     connect(client_,&ChatClient::sigConnected,this,&ChatEngine::onConnected,Qt::QueuedConnection);
     connect(client_,&ChatClient::sigHandshakeFinished,this,&ChatEngine::onHandShakeFinished,Qt::QueuedConnection);
@@ -27,8 +30,12 @@ void ChatEngine::sendText(QString id, const QString &text)
         QObject* var = qml_engine_->rootContext()->objectForName("chatHistoryModel");
         chat_history_ = qobject_cast<ChatHistoryModel*>(var);
     }
-    chat_history_->add(text,id);
-    client_->sendTextMsg(id,text);
+    chat_history_->add(text,"Me",id);
+    if (!client_->sendTextMsg(id,text)) {
+        if (!server_->sendTextMsg(id,text)) {
+            SERROR("sendmsg error,id:{}",id);
+        }
+    }
 }
 
 void ChatEngine::connectToPeer(const QString &id)
@@ -51,10 +58,10 @@ void ChatEngine::onConnected(const QString& id)
 void ChatEngine::onTextMsg(const QString& id, const QString &text)
 {
     if (!chat_history_) {
-        QObject* var = qml_engine_->rootContext()->objectForName("ChatHistoryModel");
+        QObject* var = qml_engine_->rootContext()->objectForName("chatHistoryModel");
         chat_history_ = qobject_cast<ChatHistoryModel*>(var);
     }
-    chat_history_->add(text);
+    chat_history_->add(text,id,"Me");
 }
 
 void ChatEngine::onClose(const QString& id)

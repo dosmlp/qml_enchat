@@ -12,7 +12,7 @@
 #include "xlog.h"
 #include "mbedtls.h"
 #include "exceptiondump.h"
-#include "chatclient.h"
+#include "chatengine.h"
 
 #include <ylt/struct_pack.hpp>
 #include <stdint.h>
@@ -60,8 +60,11 @@ int main(int argc, char *argv[])
 
     FriendList::Model model;
     engine.rootContext()->setContextProperty("friendListModel",&model);
-    ChatHistoryModel* history = ChatHistoryModel::create(nullptr,nullptr);
-    engine.rootContext()->setContextProperty("chatHistoryModel",history);
+    ChatHistoryModel history;
+    engine.rootContext()->setContextProperty("chatHistoryModel",&history);
+    ChatEngine chatengine;
+    chatengine.setQmlEngine(&engine);
+    engine.rootContext()->setContextProperty("chatEngine",&chatengine);
 
 
     QObject::connect(

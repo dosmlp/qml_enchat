@@ -58,19 +58,30 @@ public:
         roles.insert(Roles::time,"time");
         return roles;
     }
-    Q_INVOKABLE void add(const QString& msg,const QString& to = QString())
+    Q_INVOKABLE void add(const QString& msg,const QString& from,const QString& to = "Me")
     {
         if (current_peer_.isEmpty()) return;
 
-        beginInsertRows(QModelIndex(),history_.size(),history_.size());
         ChatHistoryNode::Ptr p = std::make_shared<ChatHistoryNode>();
-        p->author = "Me";
+        p->author = from;
         p->message = msg;
-        p->recipient = to.isEmpty()?current_peer_:to;
+        p->recipient = to;
         p->time = QDateTime::currentDateTime();
-        history_.append(p);
-        endInsertRows();
-        emit dataChanged(createIndex(history_.size()-1,0),createIndex(history_.size()-1,0));
+
+        if (from == "Me" || from == current_peer_) {
+            beginInsertRows(QModelIndex(),history_.size(),history_.size());
+            history_.append(p);
+            endInsertRows();
+            emit dataChanged(createIndex(history_.size()-1,0),createIndex(history_.size()-1,0));
+            return;
+        }
+
+
+        QList<ChatHistoryNode::Ptr> h = historys_[from];
+        h.append(p);
+        historys_[from] = h;
+
+
     }
     Q_INVOKABLE void changePeer(const QString& pk);
 private:

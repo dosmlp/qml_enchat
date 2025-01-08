@@ -18,9 +18,9 @@ class ChatEngine : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_SINGLETON
+    // QML_SINGLETON
 public:
-
+    explicit ChatEngine(QObject *parent = nullptr);
     ~ChatEngine()
     {}
     static ChatEngine *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
@@ -45,7 +45,6 @@ public:
     }
 signals:
 private:
-    explicit ChatEngine(QObject *parent = nullptr);
     ChatClient* client_;
     ChatServer* server_;
 

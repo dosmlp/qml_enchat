@@ -18,6 +18,7 @@ extern "C" {
 #include "qjson_helper.h"
 #include "Peer.h"
 #include "common.h"
+#include <ed25519.h>
 
 using namespace nlohmann;
 
@@ -38,7 +39,7 @@ public:
         }
 
     }
-    static QList<Peer::Ptr> getPeerList()
+    static QList<Peer::Ptr>& getPeerList()
     {
         return self_->_getPeerList();
     }
@@ -60,9 +61,14 @@ public:
     //生成ed25519签名密钥对
     static void ed25519()
     {
+        uint8_t seed[32] = {0};
         uint8_t public_key[32] = {0};
         uint8_t private_key[64] = {0};
-        ED25519_keypair(public_key, private_key);
+
+        ed25519_create_seed(seed);
+        ed25519_create_keypair(public_key,private_key,seed);
+
+        // ED25519_keypair(public_key, private_key);
 
         uint8_t out_base64[128] = {0};
         size_t olen = 0;
@@ -82,6 +88,15 @@ public:
         }
         std::cout << "\n";
         std::cout << out_base64 << "\n";
+        std::flush(std::cout);
+
+        uint8_t sig[64] = {0};
+        uint8_t msg[128];
+        memset(msg,22,128);
+        // ED25519_sign(sig,msg,128,private_key);
+        ed25519_sign(sig,msg,128,public_key,private_key);
+        // SERROR("res:{}",ED25519_verify(msg,128,sig,public_key));
+        SERROR("res:{}",ed25519_verify(sig,msg,128,public_key));
     }
 
     //toJson fromJson
@@ -89,10 +104,10 @@ public:
     void fromJson(const QJsonValue& j)
     {
         if (const QJsonValue& v = j["private_key"]; v.isString()) {
-            pri_key = QByteArray::fromBase64(v.toString().toLatin1());
+            pri_key = v.toString();
         }
         if (const QJsonValue& v = j["public_key"]; v.isString()) {
-            pub_key = QByteArray::fromBase64(v.toString().toLatin1());
+            pub_key = v.toString();
         }
         if (const QJsonValue& v = j["server_port"]; v.isDouble()) {
             server_port = v.toInt();
@@ -100,19 +115,20 @@ public:
         if (const QJsonValue& v = j["peers"]; v.isArray()) {
             QJsonHelper::get<QList<Peer::Ptr>>(v,peers_);
         }
-        memcpy(public_key,pub_key.data(),32);
-        memcpy(private_key,pri_key.data(),64);
+        memcpy(public_key,QByteArray::fromBase64(pub_key.toLatin1()).data(),32);
+        memcpy(private_key,QByteArray::fromBase64(pri_key.toLatin1()).data(),64);
     }
     QJsonValue toJson()
     {
         QJsonObject o;
-        o["private_key"] = QString(pri_key.toBase64());
-        o["public_key"] = QString(pub_key.toBase64());
+        o["private_key"] = pri_key;
+        o["public_key"] = pub_key;
         o["server_port"] = server_port;
         o["peers"] = QJsonHelper::to<QList<Peer::Ptr>>(peers_);
         return o;
     }
-
+    QString publicKey() const {return pub_key;}
+    QString privateKey() const {return pri_key;}
     static void init()
     {
         self_ = new AppConfig;
@@ -127,16 +143,20 @@ public:
         delete self_;
         self_ = nullptr;
     }
+    uint16_t serverPort() const
+    {
+        return server_port;
+    }
     static uint8_t public_key[32];
     static uint8_t private_key[64];
 private:
     static AppConfig* self_;
-    QByteArray pub_key;
-    QByteArray pri_key;
+    QString pub_key;
+    QString pri_key;
     uint16_t server_port;
     QList<Peer::Ptr> peers_;
 
-    bool _containsPeerPubkey(const QByteArray& key)
+    bool _containsPeerPubkey(const QString& key)
     {
         for (const Peer::Ptr& p:peers_) {
             if (p->pub_key == key) {
@@ -163,7 +183,7 @@ private:
         QJsonHelper::get<AppConfig>(obj_root,*this);
     }
 
-    QList<Peer::Ptr> _getPeerList() const
+    QList<Peer::Ptr>& _getPeerList()
     {
         return peers_;
     }

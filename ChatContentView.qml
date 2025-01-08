@@ -92,7 +92,7 @@ Rectangle {
             // }
 
             onClicked: {
-                ChatEngine.sendText(current_pk,send_text.text)
+                chatEngine.sendText(current_pk,send_text.text)
                 send_text.clear()
             }
         }
